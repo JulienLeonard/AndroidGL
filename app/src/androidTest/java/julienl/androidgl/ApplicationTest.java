@@ -1,4 +1,4 @@
-package mycompagnycom.myopengl;
+package julienl.androidgl;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

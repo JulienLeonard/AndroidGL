@@ -1,4 +1,4 @@
-package mycompagnycom.myopengl;
+package julienl.androidgl;
 /*
  * Copyright (C) 2011 The Android Open Source Project
  *

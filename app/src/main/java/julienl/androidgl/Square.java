@@ -1,4 +1,4 @@
-package mycompagnycom.myopengl;
+package julienl.androidgl;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,12 +7,10 @@ import java.nio.ShortBuffer;
 
 import android.opengl.GLES20;
 
-import mycompagnycom.myopengl.MyGLRenderer;
-
 /**
- * A two-dimensional circle for use as a drawn object in OpenGL ES 2.0.
+ * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
  */
-public class Circle extends Polygon {
+public class Square {
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -52,10 +50,12 @@ public class Circle extends Polygon {
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
+    float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Circle() {
+    public Square() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
@@ -94,7 +94,7 @@ public class Circle extends Polygon {
      * @param mvpMatrix - The Model View Project matrix in which to draw
      * this shape.
      */
-    public void draw(float[] mvpMatrix, Color color) {
+    public void draw(float[] mvpMatrix) {
         // Add program to OpenGL environment
         GLES20.glUseProgram(mProgram);
 
@@ -114,7 +114,7 @@ public class Circle extends Polygon {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color.coords(), 0);
+        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");

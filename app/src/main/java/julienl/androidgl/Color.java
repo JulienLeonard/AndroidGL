@@ -1,4 +1,4 @@
-package mycompagnycom.myopengl;
+package julienl.androidgl;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,7 +7,7 @@ import java.nio.ShortBuffer;
 
 import android.opengl.GLES20;
 
-import mycompagnycom.myopengl.MyGLRenderer;
+import julienl.androidgl.MyGLRenderer;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.

@@ -1,4 +1,4 @@
-package mycompagnycom.myopengl;
+package julienl.androidgl;
 
 /**
  * Created by JulienL on 9/30/2015.
