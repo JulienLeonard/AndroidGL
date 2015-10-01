@@ -59,10 +59,7 @@ public class Color {
         return result;
     }
 
-    public static Color rand(double a) {
-        Random rand = new Random();
-
-        Color result = new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),a);
-        return result;
+    public static Color rand(Random rand, double a) {
+        return new Color(rand.nextDouble(),rand.nextDouble(),rand.nextDouble(),a);
     }
 }

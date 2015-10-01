@@ -26,6 +26,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +41,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     // set loop to check circles
     long startTime = 0;
+
+    private Random mRandgen      = new Random(0);
+
 
     //runs without a timer by reposting this handler at the end of the runnable
     /*
@@ -102,13 +106,15 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
             case MotionEvent.ACTION_MOVE:
                 long millis = System.currentTimeMillis() - startTime;
-                if (millis > 100) {
+                if (millis > 10) {
                     Log.v("Test log", "add circle");
                     queueEvent(new Runnable() {
                         // This method will be called on the rendering
                         // thread:
                         public void run() {
-                            mRenderer.addCircle();
+                            Polygon polygon = new Circle(new Point2D(mRandgen.nextDouble(), mRandgen.nextDouble()), 0.1).polygon(10);
+                            Color color = Color.rand(mRandgen, 0.1);
+                            mRenderer.draw(polygon,color);
                         }});
                     requestRender();
                     startTime = System.currentTimeMillis();

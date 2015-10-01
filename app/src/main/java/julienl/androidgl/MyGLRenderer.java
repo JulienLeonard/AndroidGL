@@ -23,10 +23,8 @@ import java.util.Random;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private volatile ArrayList<Polygon> mPolygons;
+    private volatile ArrayList<Drawing> mDrawings;
     private PolygonRenderer mPolyRenderer;
-
-    private Random mRandgen;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -41,8 +39,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         mPolyRenderer = new PolygonRenderer();
-        mPolygons     = new ArrayList<>();
-        mRandgen      = new Random(0);
+        mDrawings     = new ArrayList<>();
+
     }
 
     @Override
@@ -60,8 +58,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw circles
-        for (Polygon polygon: mPolygons) {
-            mPolyRenderer.draw(polygon, Color.rand(0.1), mMVPMatrix);
+        for (Drawing drawing: mDrawings) {
+            mPolyRenderer.draw(drawing.polygon(), drawing.color(), mMVPMatrix);
         }
     }
 
@@ -122,7 +120,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    public void addCircle() {
-        mPolygons.add(new Circle(new Point2D(mRandgen.nextDouble(),mRandgen.nextDouble()),0.1).polygon(10));
+    public void draw(Polygon polygon, Color color) {
+        mDrawings.add(new Drawing(polygon,color));
     }
 }
