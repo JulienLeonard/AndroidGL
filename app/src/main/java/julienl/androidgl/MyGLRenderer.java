@@ -8,13 +8,8 @@ import android.util.Log;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Provides drawing instructions for a GLSurfaceView object. This class
@@ -28,10 +23,10 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private Triangle mTriangle;
-    private Square   mSquare;
-    private Polygon  mPolygon;
+    private ArrayList<Polygon> mPolygons;
     private PolygonRenderer mPolyRenderer;
+
+    private Random mRandgen;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -39,18 +34,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
 
-    private float mAngle;
-
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        mTriangle = new Triangle();
-        mSquare   = new Square();
-        mPolygon  = new Polygon(new float[]{0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
         mPolyRenderer = new PolygonRenderer();
+        mPolygons     = new ArrayList<>();
+        mRandgen      = new Random(0);
     }
 
     @Override
@@ -66,27 +58,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Draw square
-        mSquare.draw(mMVPMatrix);
-
-        // Create a rotation for the triangle
-
-        // Use the following code to generate constant rotation.
-        // Leave this code out when using TouchEvents.
-        // long time = SystemClock.uptimeMillis() % 4000L;
-        // float angle = 0.090f * ((int) time);
-
-        Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
-
-        // Combine the rotation matrix with the projection and camera view
-        // Note that the mMVPMatrix factor *must be first* in order
-        // for the matrix multiplication product to be correct.
-        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-
-        // Draw triangle
-        mTriangle.draw(scratch);
-
-        mPolyRenderer.draw(mPolygon, new Color(1.0f,0.0f,0.0f,1.0f),mMVPMatrix);
+        // Draw circles
+        for (Polygon polygon: mPolygons) {
+            mPolyRenderer.draw(polygon, new Color(0.0f, 1.0f, 0.0f, 0.1f), mMVPMatrix);
+        }
     }
 
     @Override
@@ -146,20 +121,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    /**
-     * Returns the rotation angle of the triangle shape (mTriangle).
-     *
-     * @return - A float representing the rotation angle.
-     */
-    public float getAngle() {
-        return mAngle;
+    public void addCircle() {
+        mPolygons.add(new Circle(new Point2D(mRandgen.nextDouble(),mRandgen.nextDouble()),0.1).polygon(10));
     }
-
-    /**
-     * Sets the rotation angle of the triangle shape (mTriangle).
-     */
-    public void setAngle(float angle) {
-        mAngle = angle;
-    }
-
 }
