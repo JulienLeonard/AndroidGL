@@ -38,6 +38,30 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     private final MyGLRenderer mRenderer;
 
+    // set loop to check circles
+    long startTime = 0;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    /*
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            Log.v("timerRunnable", "adddCircle");
+
+            mRenderer.addCircle();
+
+            timerHandler.postDelayed(this, 50);
+        }
+    };
+    */
+
     public MyGLSurfaceView(Context context) {
         super(context);
 
@@ -54,11 +78,13 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
+    /*
     public void addCircle() {
         mRenderer.addCircle();
         requestRender();
     }
-    /*
+    */
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         // MotionEvent reports input details from the touch screen
@@ -72,14 +98,29 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_DOWN:
                 Log.v("Test log", "event=DOWN");
                 startTime = System.currentTimeMillis();
-                timerHandler.postDelayed(timerRunnable, 0);
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                long millis = System.currentTimeMillis() - startTime;
+                if (millis > 100) {
+                    Log.v("Test log", "add circle");
+                    queueEvent(new Runnable() {
+                        // This method will be called on the rendering
+                        // thread:
+                        public void run() {
+                            mRenderer.addCircle();
+                        }});
+                    requestRender();
+                    startTime = System.currentTimeMillis();
+                }
+                break;
+
 
             case MotionEvent.ACTION_UP:
                 Log.v("Test log", "event=UP");
-                timerHandler.removeCallbacks(timerRunnable);
-
+                break;
         }
         return true;
     }
-    */
+
 }

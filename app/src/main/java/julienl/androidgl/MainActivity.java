@@ -18,27 +18,6 @@ public class MainActivity extends Activity {
 
     private MyGLSurfaceView mGLView;
 
-    long startTime = 0;
-
-    //runs without a timer by reposting this handler at the end of the runnable
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            long millis = System.currentTimeMillis() - startTime;
-            int seconds = (int) (millis / 1000);
-            int minutes = seconds / 60;
-            seconds = seconds % 60;
-
-            Log.v("timerRunnable", "adddCircle");
-
-            mGLView.addCircle();
-
-            timerHandler.postDelayed(this, 50);
-        }
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,36 +26,6 @@ public class MainActivity extends Activity {
         // as the ContentView for this Activity
         mGLView = new MyGLSurfaceView(this);
         setContentView(mGLView);
-
-
-
-        mGLView.setOnTouchListener(new View.OnTouchListener(){
-
-            @Override
-            public boolean onTouch(View view, MotionEvent e) {
-                // MotionEvent reports input details from the touch screen
-                // and other input controls. In this case, you are only
-                // interested in events where the touch position changed.
-
-
-                // Log.v("Test log", "event=" + e.getAction());
-
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.v("Test log", "event=DOWN");
-                        startTime = System.currentTimeMillis();
-                        timerHandler.postDelayed(timerRunnable, 0);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        Log.v("Test log", "event=UP");
-                        timerHandler.removeCallbacks(timerRunnable);
-                        break;
-
-                }
-                return true;
-            }
-        });
     }
 
     @Override
