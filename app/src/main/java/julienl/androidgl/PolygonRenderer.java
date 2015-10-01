@@ -112,7 +112,7 @@ public class PolygonRenderer {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color.coords(), 0);
+        GLES20.glUniform4fv(mColorHandle, 1, color.GLcoords(), 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");

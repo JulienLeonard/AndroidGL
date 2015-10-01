@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 
             mGLView.addCircle();
 
-            timerHandler.postDelayed(this, 500);
+            timerHandler.postDelayed(this, 50);
         }
     };
 

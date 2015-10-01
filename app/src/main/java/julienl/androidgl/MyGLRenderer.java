@@ -23,7 +23,7 @@ import java.util.Random;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private ArrayList<Polygon> mPolygons;
+    private volatile ArrayList<Polygon> mPolygons;
     private PolygonRenderer mPolyRenderer;
 
     private Random mRandgen;
@@ -47,6 +47,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
+        Log.v("MyGLRenderer", "onDrawFrame");
         float[] scratch = new float[16];
 
         // Draw background color
@@ -60,7 +61,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Draw circles
         for (Polygon polygon: mPolygons) {
-            mPolyRenderer.draw(polygon, new Color(0.0f, 1.0f, 0.0f, 0.1f), mMVPMatrix);
+            mPolyRenderer.draw(polygon, Color.rand(0.1), mMVPMatrix);
         }
     }
 
