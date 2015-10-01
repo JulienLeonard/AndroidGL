@@ -16,7 +16,7 @@ public class Point2D {
     public double x() {return mx;}
     public double y() {return my;}
 
-    public Point2D add(Vector v) {
+    public Point2D add(Vector2D v) {
         return new Point2D(mx + v.x(), my + v.y());
     }
 }

@@ -43,11 +43,11 @@ public class Range {
         return (mv1 > mv2 ? mv1 : mv2);
     }
 
-    public double[] samples(short niter) {
+    public double[] samples(int niter) {
         double[] result = new double[niter];
         double incr = (mv2 - mv1)/(double)(niter - 1);
         double v = mv1;
-        for (short index = 0; index < niter; index++) {
+        for (int index = 0; index < niter; index++) {
             result[index] = v;
             v += incr;
         }
