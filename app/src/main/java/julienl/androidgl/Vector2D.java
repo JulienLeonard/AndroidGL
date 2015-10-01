@@ -3,12 +3,12 @@ package julienl.androidgl;
 /**
  * Created by JulienL on 9/30/2015.
  */
-public class Vector {
+public class Vector2D {
 
     private double mx;
     private double my;
 
-    public Vector(double x, double y) {
+    public Vector2D(double x, double y) {
         mx = x;
         my = y;
     }
@@ -25,12 +25,12 @@ public class Vector {
         return Math.sqrt(mx * mx + my * my);
     }
 
-    public Vector add(Vector other) {
-        return (new Vector(mx + other.x(), my + other.y()));
+    public Vector2D add(Vector2D other) {
+        return (new Vector2D(mx + other.x(), my + other.y()));
     }
 
-    public Vector scale(double ratio) {
-        return (new Vector(mx * ratio, my * ratio));
+    public Vector2D scale(double ratio) {
+        return (new Vector2D(mx * ratio, my * ratio));
     }
 
 }
