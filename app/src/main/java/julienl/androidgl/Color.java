@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Random;
 
 import android.opengl.GLES20;
 
@@ -14,40 +15,54 @@ import julienl.androidgl.MyGLRenderer;
  */
 public class Color {
 
-    private float mR;
-    private float mG;
-    private float mB;
-    private float mA;
-    private float[] mcoords;
+    private double mR;
+    private double mG;
+    private double mB;
+    private double mA;
+    private double[] mcoords;
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Color(float r, float g, float b, float a) {
-        mcoords = new float[4];
+    public Color(double r, double g, double b, double a) {
+        mcoords = new double[4];
         mcoords[0] = r;
         mcoords[1] = g;
         mcoords[2] = b;
         mcoords[3] = a;
     }
 
-    public float R() {
-        return mcoords[0];
-    }
+    public double R() {return mcoords[0];}
 
-    public float G() {
+    public double G() {
         return mcoords[1];
     }
 
-    public float B() {
+    public double B() {
         return mcoords[2];
     }
 
-    public float A() {
+    public double A() {
         return mcoords[3];
     }
 
-    public float[] coords() {
+    public double[] coords() {
         return mcoords;
+    }
+
+    public float[] GLcoords() {
+        float[] result = new float[4];
+        result[0] = (float)R();
+        result[1] = (float)G();
+        result[2] = (float)B();
+        result[3] = (float)A();
+        return result;
+    }
+
+    public static Color rand(double a) {
+        Random rand = new Random();
+
+        Color result = new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),a);
+        return result;
     }
 }
