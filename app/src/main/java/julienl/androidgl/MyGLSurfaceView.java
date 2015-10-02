@@ -40,7 +40,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
     private final MyGLRenderer mRenderer;
 
     // set loop to check circles
-    long startTime = 0;
+    long mstartTime = 0;
+    float mtouchx = 0;
+    float mtouchy = 0;
 
     private Random mRandgen      = new Random(0);
 
@@ -101,23 +103,28 @@ public class MyGLSurfaceView extends GLSurfaceView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.v("Test log", "event=DOWN");
-                startTime = System.currentTimeMillis();
+                mstartTime = System.currentTimeMillis();
+                mtouchx = e.getX() / getWidth();
+                mtouchy = e.getY() / getHeight();
+                Log.v("Test log", "mtouchx" + mtouchx);
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                long millis = System.currentTimeMillis() - startTime;
+                long millis = System.currentTimeMillis() - mstartTime;
+                mtouchx = e.getX() / getWidth();
+                mtouchy = e.getY() / getHeight();
                 if (millis > 10) {
                     Log.v("Test log", "add circle");
                     queueEvent(new Runnable() {
                         // This method will be called on the rendering
                         // thread:
                         public void run() {
-                            Polygon polygon = new Circle(new Point2D(mRandgen.nextDouble(), mRandgen.nextDouble()), 0.1).polygon(10);
+                            Polygon polygon = new Circle(new Point2D(mtouchx + Range.New(-0.1,0.1).rand(mRandgen), mtouchy + Range.New(-0.1, 0.1).rand(mRandgen)), 0.1).polygon(10);
                             Color color = Color.rand(mRandgen, 0.1);
                             mRenderer.draw(polygon,color);
                         }});
                     requestRender();
-                    startTime = System.currentTimeMillis();
+                    mstartTime = System.currentTimeMillis();
                 }
                 break;
 
