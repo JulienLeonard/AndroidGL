@@ -1,5 +1,7 @@
 package julienl.androidgl;
 
+import java.util.Random;
+
 /**
  * Created by JulienL on 9/30/2015.
  */
@@ -52,5 +54,13 @@ public class Range {
             v += incr;
         }
         return result;
+    }
+
+    public double rand(Random rand) {
+        return sample(rand.nextDouble());
+    }
+
+    public static Range New(double v1, double v2) {
+        return new Range(v1,v2);
     }
 }
