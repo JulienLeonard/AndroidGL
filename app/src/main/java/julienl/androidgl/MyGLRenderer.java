@@ -50,16 +50,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-
-        // Calculate the projection and view transformation
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-
         // Draw circles
         for (Drawing drawing: mDrawings) {
             mPolyRenderer.draw(drawing.polygon(), drawing.color(), mMVPMatrix);
         }
+        // mDrawings.clear();
     }
 
     @Override
@@ -68,12 +63,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // such as screen rotation
         GLES20.glViewport(0, 0, width, height);
 
-        float ratio = (float) width / height;
+        // Set the camera position (View matrix)
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
-        // this projection matrix is applied to object coordinates
-        // in the onDrawFrame() method
+        // float ratio = (float) width / height;
+
         // Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-        Matrix.orthoM(mProjectionMatrix, 0, 0f, ratio, 0.0f, 1.0f, 0, 50);
+        Matrix.orthoM(mProjectionMatrix, 0, 0f, width, 0.0f, height, 0, 50);
+
+        // Calculate the projection and view transformation
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
     }
 

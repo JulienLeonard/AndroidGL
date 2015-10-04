@@ -111,15 +111,15 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
             case MotionEvent.ACTION_MOVE:
                 long millis = System.currentTimeMillis() - mstartTime;
-                mtouchx = e.getX() / getWidth();
-                mtouchy = e.getY() / getHeight();
+                mtouchx = e.getX();
+                mtouchy = getHeight() - e.getY();
                 if (millis > 10) {
                     Log.v("Test log", "add circle");
                     queueEvent(new Runnable() {
                         // This method will be called on the rendering
                         // thread:
                         public void run() {
-                            Polygon polygon = new Circle(new Point2D(mtouchx + Range.New(-0.1,0.1).rand(mRandgen), mtouchy + Range.New(-0.1, 0.1).rand(mRandgen)), 0.1).polygon(10);
+                            Polygon polygon = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 10.0).polygon(10);
                             Color color = Color.rand(mRandgen, 0.1);
                             mRenderer.draw(polygon,color);
                         }});
