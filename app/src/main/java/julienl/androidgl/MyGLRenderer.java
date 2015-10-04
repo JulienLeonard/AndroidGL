@@ -51,10 +51,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         // Draw circles
-        for (Drawing drawing: mDrawings) {
-            mPolyRenderer.draw(drawing.polygon(), drawing.color(), mMVPMatrix);
+        // for (Drawing drawing: mDrawings) {
+        //     mPolyRenderer.draw(drawing.polygon(), drawing.color(), mMVPMatrix);
+        // }
+
+        if (mDrawings.size() > 0) {
+            Polygon[] polygons = new Polygon[mDrawings.size()];
+            Color[] colors = new Color[mDrawings.size()];
+            int index = 0;
+            for (Drawing drawing : mDrawings) {
+                polygons[index] = drawing.polygon();
+                colors[index] = drawing.color();
+                index += 1;
+            }
+
+            Log.v("MyGLRenderer", "onDrawFrame " + polygons.length);
+            mPolyRenderer.draws(polygons, colors, mMVPMatrix);
+            // mDrawings.clear();
         }
-        // mDrawings.clear();
     }
 
     @Override
@@ -120,6 +134,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void draw(Polygon polygon, Color color) {
+        // mDrawings.clear();
         mDrawings.add(new Drawing(polygon,color));
     }
 }

@@ -48,11 +48,15 @@ public class Polygon {
         return new Point2D(sumx/fnpoints,sumy/fnpoints);
     }
 
+    public int GLCoordsSize() {
+        return (mPoint2Ds.length + 1) * 3;
+    }
+
     //
     // basic algo : works only for convex polys
     //
     public float[] GLCoords() {
-        float[] result = new float[(mPoint2Ds.length + 1) * 3];
+        float[] result = new float[GLCoordsSize()];
         Point2D pmiddle = middle();
         short index = 0;
         result[3 * index]     = (float)pmiddle.x();
@@ -69,11 +73,15 @@ public class Polygon {
         return result;
     }
 
+    public int GLOrderSize() {
+        return mPoint2Ds.length * 3;
+    }
+
     //
     // basic algo : works only for convex polys
     //
     public short[] GLOrder() {
-        short[] result = new short[mPoint2Ds.length * 3];
+        short[] result = new short[GLOrderSize()];
 
         for (short pindex = 1; pindex < mPoint2Ds.length; pindex++) {
             result[pindex * 3]     = 0; // middle point
