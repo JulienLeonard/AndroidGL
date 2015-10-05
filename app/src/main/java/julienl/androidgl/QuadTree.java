@@ -39,7 +39,7 @@ public class QuadTree {
 	public Boolean isColliding(Shape newshape) {
 		ArrayList<Shape> shapes = mRootQuad.mayintersect( newshape );
 		for (Shape shape: shapes) {
-			if (shape.intersect(newshape)) {
+			if (Shape.intersect(shape,newshape)) {
 				return true;
 			}
 		}
@@ -50,7 +50,7 @@ public class QuadTree {
 		ArrayList<Shape> shapes = mRootQuad.mayintersect( newshape );
 		ArrayList<Shape> result = new ArrayList<Shape>();
 		for (Shape shape: shapes) {
-			if (shape.intersect(newshape)) {
+			if (Shape.intersect(shape,newshape)) {
 				result.add(shape);
 			}
 		}

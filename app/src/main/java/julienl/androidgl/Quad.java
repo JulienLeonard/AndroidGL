@@ -104,7 +104,7 @@ public class Quad {
 		}
 		
 		for (Shape c: ownshapes()) {
-			if (shape.intersect(c)) {
+			if (Shape.intersect(shape,c)) {
 				mmaxshapenumber += 1;
 			}
 		}

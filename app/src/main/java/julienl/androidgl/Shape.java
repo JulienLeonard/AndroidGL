@@ -9,7 +9,7 @@ public abstract class Shape {
         return null;
     }
 
-    public Boolean intersect(Shape oshape) {
+    public static Boolean intersect(Shape shape1, Shape shape2) {
         return false;
     }
 }
