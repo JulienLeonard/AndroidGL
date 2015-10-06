@@ -27,10 +27,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private PolygonRenderer mPolyRenderer;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
-    private final float[] mMVPMatrix = new float[16];
+    private final float[] mMVPMatrix        = new float[16];
     private final float[] mProjectionMatrix = new float[16];
-    private final float[] mViewMatrix = new float[16];
-    private final float[] mRotationMatrix = new float[16];
+    private final float[] mViewMatrix       = new float[16];
+    private final float[] mRotationMatrix   = new float[16];
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -66,8 +66,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             }
 
             Log.v("MyGLRenderer", "onDrawFrame " + polygons.length);
-            mPolyRenderer.draws(polygons, colors, mMVPMatrix);
+
+            // mPolyRenderer.draw(polygons[polygons.length-1], colors[polygons.length-1], mMVPMatrix);
             // mDrawings.clear();
+            mPolyRenderer.draws(polygons, colors, mMVPMatrix);
         }
     }
 
