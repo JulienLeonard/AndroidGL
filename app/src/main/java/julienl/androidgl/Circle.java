@@ -1,9 +1,11 @@
 package julienl.androidgl;
 
+import android.util.Log;
+
 /**
  * A two-dimensional circle for use as a drawn object in OpenGL ES 2.0.
  */
-public class Circle {
+public class Circle extends Shape {
 
     private Point2D mcenter;
     private double mradius;
@@ -38,5 +40,16 @@ public class Circle {
         }
 
         return new Polygon(point2Ds);
+    }
+
+    public BBox bbox() {
+        return BBox.New(center(),radius());
+    }
+
+    public static Boolean intersect(Circle c1, Circle c2) {
+        double sumrad = (c1.radius() + c2.radius());
+        Boolean result = (Point2D.distance2(c1.center(),c2.center()) < (sumrad *sumrad));
+       //  Log.v("Test log", "intersect circle result" + result);
+        return result;
     }
 }
