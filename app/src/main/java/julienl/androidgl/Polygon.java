@@ -49,8 +49,11 @@ public class Polygon {
     }
 
     public int GLCoordsSize() {
-        return (mPoint2Ds.length + 1) * 3;
+        return (mPoint2Ds.length + 1) * 4;
     }
+
+    public int GLnpoints() {return (mPoint2Ds.length + 1);}
+
 
     //
     // basic algo : works only for convex polys
@@ -59,15 +62,17 @@ public class Polygon {
         float[] result = new float[GLCoordsSize()];
         Point2D pmiddle = middle();
         short index = 0;
-        result[3 * index]     = (float)pmiddle.x();
-        result[3 * index + 1] = (float)pmiddle.y();
-        result[3 * index + 2] = 0.0f;
+        result[4 * index]     = (float)pmiddle.x();
+        result[4 * index + 1] = (float)pmiddle.y();
+        result[4 * index + 2] = 0.0f;
+        result[4 * index + 3] = 1.0f;
         index = +1;
 
         for (Point2D p : mPoint2Ds) {
-            result[3 * index]     = (float)p.x();
-            result[3 * index + 1] = (float)p.y();
-            result[3 * index + 2] = 0.0f;
+            result[4 * index]     = (float)p.x();
+            result[4 * index + 1] = (float)p.y();
+            result[4 * index + 2] = 0.0f;
+            result[4 * index + 3] = 1.0f;
             index += 1;
         }
         return result;
