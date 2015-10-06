@@ -11,36 +11,28 @@ import java.util.Map;
 public class Quad {
 
 	private BBox mbbox;
-	private Quad[] msubquads;
+	private ArrayList<Quad> msubquads;
 	private HashMap<Integer,ArrayList<Shape>> mshapemap;
 	private int mmaxshapenumber;
 
 	public Quad(BBox bbox) {
-		mbbox = bbox;
-		msubquads = null;
-		mshapemap = new HashMap<Integer,ArrayList<Shape>>();
+		mbbox           = bbox;
+		msubquads       = new ArrayList<Quad>();
+		mshapemap       = new HashMap<Integer,ArrayList<Shape>>();
 		mmaxshapenumber = 10;
 	}
 
-	public Shape[] shapes() {
+	public ArrayList<Shape> shapes() {
 		ArrayList<Shape> result = new ArrayList();
-		if (msubquads != null) {
-            for (Quad subquad:msubquads) {
-                for (Shape subshape: subquad.shapes()) {
-                    result.add(subshape);
-                }
-            }
+		for (Quad subquad:msubquads) {
+			result.addAll(subquad.shapes());
 		}
 
         for (ArrayList<Shape> shapes: mshapemap.values()) {
-            for (Shape shape: shapes) {
-                result.add(shape);
-            }
+			result.addAll(shapes);
         }
 
-        // TODO: to test
-        Shape[] typeresult = new Shape[1];
-        return result.toArray(typeresult);
+		return result;
 	}
 
 	public Boolean intersect(Shape shape) {
@@ -48,7 +40,7 @@ public class Quad {
 	}
 
 	public void add(Shape shape, int push) {
-		if (intersect(shape)) {
+		if (!intersect(shape)) {
 			mbbox = BBox.bbunion(mbbox,shape.bbox());
 			insert(shape,push);
 		} else {
@@ -57,11 +49,16 @@ public class Quad {
 	}
 
 	public void pop(int push) {
-		// TODO
+		if (mshapemap.containsKey(push)) {
+			mshapemap.remove(push);
+		}
+		for (Quad subquad : msubquads) {
+			subquad.pop(push);
+		}
 	}
 
 	public void addwithoutcheck(Shape shape, int push) {
-		if (msubquads == null) {
+		if (msubquads.size() == 0) {
 			insert(shape,push);
 		} else {
 			dispatch(shape, push);
@@ -69,11 +66,9 @@ public class Quad {
 	}
 
 	public void dispatch(Shape shape, int push) {
-		if (msubquads != null) {
-			for (Quad subquad: msubquads) {
-				if (subquad.intersect(shape)) {
-					subquad.addwithoutcheck(shape,push);
-				}
+		for (Quad subquad: msubquads) {
+			if (subquad.intersect(shape)) {
+				subquad.addwithoutcheck(shape,push);
 			}
 		}
 	}
@@ -86,16 +81,13 @@ public class Quad {
 		return result;
 	}
 	
-	public Shape[] ownshapes() {
+	public ArrayList<Shape> ownshapes() {
 		ArrayList<Shape> result = new ArrayList<Shape>();
         for (ArrayList<Shape> shapes: mshapemap.values()) {
-            for (Shape shape: shapes) {
-                result.add(shape);
-            }
+			result.addAll(shapes);
         }
 
-        Shape[] typeresult = new Shape[1];
-		return result.toArray(typeresult);
+		return result;
 	}
 
 	public void insert(Shape shape, int push) {
@@ -117,10 +109,9 @@ public class Quad {
 	}
 
 	public void split() {
-		msubquads = new Quad[4];
 		BBox[] subbboxes = mbbox.split4();
-		for (int i = 0; i < subbboxes.length; i++) {
-			msubquads[i] = new Quad(subbboxes[i]);
+		for (BBox subbbox : subbboxes) {
+			msubquads.add(new Quad(subbbox));
 		}
 
 		for (int push: mshapemap.keySet()) {
@@ -135,7 +126,7 @@ public class Quad {
 	public ArrayList<Shape> mayintersect(Shape newshape) {
 		ArrayList<Shape> result = new ArrayList<Shape>();
 		if (intersect(newshape)) {
-			if (msubquads != null) {
+			if (msubquads.size() != 0) {
 				for (Quad subquad : msubquads) {
 					if (subquad.intersect(newshape)) {
 						ArrayList<Shape> subresult = subquad.mayintersect(newshape);

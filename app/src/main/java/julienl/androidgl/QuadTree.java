@@ -12,7 +12,7 @@ public class QuadTree {
 	private int  mPush;
 
 	public QuadTree() {
-		mBBox0    = new BBox(-1000.0,-1000.0,1000.0,1000.0);
+		mBBox0    = new BBox(-10000.0,-10000.0,10000.0,10000.0);
 		mRootQuad = new Quad(mBBox0);
 		mPush = 0;
 	}
@@ -57,7 +57,7 @@ public class QuadTree {
 		return result;
 	}
 
-	public Shape[] shapes() {
+	public ArrayList<Shape> shapes() {
 		return mRootQuad.shapes();
 	}
 
