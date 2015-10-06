@@ -7,10 +7,7 @@ import android.util.Log;
  */
 public abstract class Shape {
 
-    public BBox bbox() {
-        return null;
-    }
-
+    abstract public BBox bbox();
     public static Boolean intersect(Shape shape1, Shape shape2) {
         // Log.v("Test log", "intersect generic");
 
