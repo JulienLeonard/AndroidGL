@@ -126,12 +126,12 @@ public class BBox {
     
 	public BBox[] split4() {
 		BBox[] result = new BBox[4];
-		double[] coords = coords();
+		double[] ccoords = coords();
 		
-		double xmin = coords[0];
-		double ymin = coords[1];
-		double xmax = coords[2];
-		double ymax = coords[3];
+		double xmin = ccoords[0];
+		double ymin = ccoords[1];
+		double xmax = ccoords[2];
+		double ymax = ccoords[3];
 
 		double middlex = (xmin + xmax) /2.0;
 		double middley = (ymin + ymax) /2.0;

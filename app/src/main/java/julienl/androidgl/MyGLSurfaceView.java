@@ -38,6 +38,7 @@ import java.util.TimerTask;
 public class MyGLSurfaceView extends GLSurfaceView {
 
     private final MyGLRenderer mRenderer;
+    private QuadTree mQuadTree;
 
     // set loop to check circles
     long mstartTime = 0;
@@ -80,16 +81,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
 
+        mQuadTree = new QuadTree();
+
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    /*
-    public void addCircle() {
-        mRenderer.addCircle();
-        requestRender();
-    }
-    */
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -119,9 +116,13 @@ public class MyGLSurfaceView extends GLSurfaceView {
                         // This method will be called on the rendering
                         // thread:
                         public void run() {
-                            Polygon polygon = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 10.0).polygon(10);
-                            Color color = Color.rand(mRandgen, 0.1);
-                            mRenderer.draw(polygon,color);
+                            Circle newcircle = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 20.0);
+                            if (!mQuadTree.isColliding(newcircle)) {
+                                mQuadTree.add(newcircle);
+                                Polygon polygon = newcircle.polygon(10);
+                                Color color = Color.rand(mRandgen, 0.1);
+                                mRenderer.draw(polygon, color);
+                            }
                         }});
                     requestRender();
                     mstartTime = System.currentTimeMillis();
