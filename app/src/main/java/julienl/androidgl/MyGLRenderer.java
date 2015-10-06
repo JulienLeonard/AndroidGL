@@ -57,11 +57,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         if (mDrawings.size() > 0) {
             Polygon[] polygons = new Polygon[mDrawings.size()];
-            Color[] colors = new Color[mDrawings.size()];
+            Color[]   colors   = new Color[mDrawings.size()];
             int index = 0;
             for (Drawing drawing : mDrawings) {
                 polygons[index] = drawing.polygon();
-                colors[index] = drawing.color();
+                colors[index]   = drawing.color();
                 index += 1;
             }
 

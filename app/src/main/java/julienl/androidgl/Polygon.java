@@ -48,32 +48,13 @@ public class Polygon {
         return new Point2D(sumx/fnpoints,sumy/fnpoints);
     }
 
-    public int GLCoordsSize() {
-        return (mPoint2Ds.length + 1) * 4;
-    }
-
     public int GLnpoints() {return (mPoint2Ds.length + 1);}
 
-
-    //
-    // basic algo : works only for convex polys
-    //
-    public float[] GLCoords() {
-        float[] result = new float[GLCoordsSize()];
-        Point2D pmiddle = middle();
-        short index = 0;
-        result[4 * index]     = (float)pmiddle.x();
-        result[4 * index + 1] = (float)pmiddle.y();
-        result[4 * index + 2] = 0.0f;
-        result[4 * index + 3] = 1.0f;
-        index = +1;
-
-        for (Point2D p : mPoint2Ds) {
-            result[4 * index]     = (float)p.x();
-            result[4 * index + 1] = (float)p.y();
-            result[4 * index + 2] = 0.0f;
-            result[4 * index + 3] = 1.0f;
-            index += 1;
+    public Point2D[] GLpoints() {
+        Point2D[] result = new Point2D[(mPoint2Ds.length + 1)];
+        result[0] = middle();
+        for (int i = 0; i < mPoint2Ds.length; i++) {
+            result[i+1] = mPoint2Ds[i];
         }
         return result;
     }
