@@ -26,6 +26,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +40,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     private final MyGLRenderer mRenderer;
     private QuadTree mQuadTree;
+    private BaoCirclePacking mpacking;
 
     // set loop to check circles
     long mstartTime = 0;
@@ -112,6 +114,22 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_DOWN:
                 Log.v("Test log", "event=DOWN");
                 mstartTime = System.currentTimeMillis();
+                mtouchx = e.getX();
+                mtouchy = getHeight() - e.getY();
+                Circle newcircle = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 20.0);
+                if (!mQuadTree.isColliding(newcircle)) {
+                    ArrayList<Color> colorpattern = new ArrayList<>();
+                    colorpattern.add(Color.white());
+                    colorpattern.add(Color.red());
+                    ArrayList<Double> radiuspattern = new ArrayList<>();
+                    radiuspattern.add(10.0);
+                    BaoPattern baopattern = new BaoPattern(this).colorpattern(colorpattern).radiuspattern(radiuspattern);
+                    ArrayList<BaoNode> nodes0 = BaoNode.fromcircle(newcircle);
+                    mpacking = new BaoCirclePacking(null, nodes0, baopattern, 1.0, mQuadTree );
+                    for (BaoNode node : nodes0) {
+                        draw(node,Color.yellow());
+                    }
+                }
                 //mtouchx = e.getX() / getWidth();
                 //mtouchy = e.getY() / getHeight();
                 //Log.v("Test log", "mtouchx" + mtouchx);
@@ -119,14 +137,10 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
             case MotionEvent.ACTION_MOVE:
                 long millis = System.currentTimeMillis() - mstartTime;
-                mtouchx = e.getX();
-                mtouchy = getHeight() - e.getY();
+
                 if (millis > 10) {
-                    Circle newcircle = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 20.0);
-                    if (!mQuadTree.isColliding(newcircle)) {
-                        mQuadTree.add(newcircle);
-                        Color color = Color.rand(mRandgen, 0.1);
-                        draw(newcircle, color);
+                    if (mpacking != null) {
+                        mpacking.iter();
                     }
                     requestRender();
                     mstartTime = System.currentTimeMillis();
