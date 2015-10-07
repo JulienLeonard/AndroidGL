@@ -7,16 +7,23 @@ import android.util.Log;
  */
 public class Circle extends Shape {
 
-    private Point2D mcenter;
-    private double mradius;
+    protected Point2D mcenter;
+    protected double mradius;
 
-    /**
-     * Sets up the drawing object data for use in an OpenGL ES context.
-     */
+    public Circle() {
+        mcenter = new Point2D();
+        mradius = 1.0;
+    }
+
     public Circle(Point2D center, double radius) {
         mcenter = center;
         mradius = radius;
     }
+
+	public Circle(double x, double y, double radius) {	
+		mcenter = new Point2D(x,y);
+		mradius = radius;
+	}
 
     public Point2D center() {
         return mcenter;
@@ -24,6 +31,18 @@ public class Circle extends Shape {
 
     public double radius() {
         return mradius;
+    }
+
+    public double r() {
+    return mradius;
+    }
+
+    public double x() {
+        return mcenter.x();
+    }
+
+    public double y() {
+        return mcenter.y();
     }
 
     public Point2D point(double angleratio) {
