@@ -87,6 +87,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
+    public void draw(final Circle circle, final Color color) {
+        Log.v("Surfaceview", "draw circle");
+        queueEvent(new Runnable() {
+            // This method will be called on the rendering
+            // thread:
+            public void run() {
+                    Polygon polygon = circle.polygon(10);
+                    mRenderer.draw(polygon, color);
+            }
+        });
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -101,9 +112,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_DOWN:
                 Log.v("Test log", "event=DOWN");
                 mstartTime = System.currentTimeMillis();
-                mtouchx = e.getX() / getWidth();
-                mtouchy = e.getY() / getHeight();
-                Log.v("Test log", "mtouchx" + mtouchx);
+                //mtouchx = e.getX() / getWidth();
+                //mtouchy = e.getY() / getHeight();
+                //Log.v("Test log", "mtouchx" + mtouchx);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -111,19 +122,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 mtouchx = e.getX();
                 mtouchy = getHeight() - e.getY();
                 if (millis > 10) {
-                    Log.v("Test log", "add circle");
-                    queueEvent(new Runnable() {
-                        // This method will be called on the rendering
-                        // thread:
-                        public void run() {
-                            Circle newcircle = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 20.0);
-                            if (!mQuadTree.isColliding(newcircle)) {
-                                mQuadTree.add(newcircle);
-                                Polygon polygon = newcircle.polygon(10);
-                                Color color = Color.rand(mRandgen, 0.1);
-                                mRenderer.draw(polygon, color);
-                            }
-                        }});
+                    Circle newcircle = new Circle(new Point2D(mtouchx + Range.New(-10.0,10.0).rand(mRandgen), mtouchy + Range.New(-10.0, 10.0).rand(mRandgen)), 20.0);
+                    if (!mQuadTree.isColliding(newcircle)) {
+                        mQuadTree.add(newcircle);
+                        Color color = Color.rand(mRandgen, 0.1);
+                        draw(newcircle, color);
+                    }
                     requestRender();
                     mstartTime = System.currentTimeMillis();
                 }
