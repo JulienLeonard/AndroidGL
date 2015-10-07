@@ -62,4 +62,8 @@ public class Color {
     public static Color rand(Random rand, double a) {
         return new Color(rand.nextDouble(),rand.nextDouble(),rand.nextDouble(),a);
     }
+
+    public static Color black() {
+        return new Color(0.0,0.0,0.0,1.0);
+    }
 }
