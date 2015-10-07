@@ -1,4 +1,4 @@
-package julienl.androidgl;
+package julienl.androidgl.geometry;
 
 import android.util.Log;
 

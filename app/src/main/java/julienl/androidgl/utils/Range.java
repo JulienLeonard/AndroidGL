@@ -1,5 +1,6 @@
-package julienl.androidgl;
+package julienl.androidgl.utils;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,6 +15,10 @@ public class Range {
         mv1 = v1;
         mv2 = v2;
     }
+
+	static public Range New(double v1, double v2) {
+		return new Range(v1,v2);
+	}
 
     public double v1() {
         return mv1;
@@ -45,14 +50,11 @@ public class Range {
         return (mv1 > mv2 ? mv1 : mv2);
     }
 
-    public double[] samples(int niter) {
-        double[] result = new double[niter];
-        double incr = (mv2 - mv1)/(double)(niter - 1);
-        double v = mv1;
-        for (int index = 0; index < niter; index++) {
-            result[index] = v;
-            v += incr;
-        }
+    public ArrayList<Double> samples(int niter) {
+		ArrayList<Double> result = new ArrayList<Double>();
+		for (double abscissa: Range.usamples(niter)) {
+			result.add(sample(abscissa));
+		}
         return result;
     }
 
@@ -60,7 +62,23 @@ public class Range {
         return sample(rand.nextDouble());
     }
 
-    public static Range New(double v1, double v2) {
-        return new Range(v1,v2);
-    }
+	public static ArrayList<Double> usamples(int niter) {
+		ArrayList<Double> result = new ArrayList<Double>();
+		if (niter == 0) {
+			return result;
+		}
+		if (niter == 1) {
+			result.add(0.5);
+			return result;
+		}
+
+        for (int index = 0; index < niter; index++) {
+            result.add((double)index/(double)(niter-1));
+        }
+        return result;
+	}
+
+	public Boolean contain(double v) {
+		return (mv1 <= mv2) ? (mv1 <= v && v <= mv2) : (mv2 <= v && v <= mv1);
+	}
 }

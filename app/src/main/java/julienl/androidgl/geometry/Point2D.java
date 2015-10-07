@@ -1,17 +1,28 @@
-package julienl.androidgl;
+package julienl.androidgl.geometry;
+
+import julienl.androidgl.Vector2D;
 
 /**
  * Created by JulienL on 9/30/2015.
  */
 public class Point2D {
 
-    private double mx;
-    private double my;
+    protected double mx;
+    protected double my;
+
+    public Point2D() {
+        mx = 0.0;
+        my = 0.0;
+    }
 
     public Point2D(double x, double y) {
         mx = x;
         my = y;
     }
+
+	static public Point2D New(double x, double y) {
+		return new Point2D(x,y);
+	}
 
     public double x() {return mx;}
     public double y() {return my;}
@@ -29,4 +40,12 @@ public class Point2D {
     public static double distance(Point2D p1, Point2D p2) {
         return Math.sqrt(Point2D.distance(p1,p2));
     }
+
+	public static BBox bbox(Point2D p1, Point2D p2) {
+		double minx = Math.min(p1.x(),p2.x());
+		double maxx = Math.max(p1.x(),p2.x());
+		double miny = Math.min(p1.y(),p2.y());
+		double maxy = Math.max(p1.y(),p2.y());
+		return new BBox(minx,miny,maxx,maxy);
+	}
 }

@@ -1,14 +1,6 @@
-package julienl.androidgl;
+package julienl.androidgl.drawing;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 import java.util.Random;
-
-import android.opengl.GLES20;
-
-import julienl.androidgl.MyGLRenderer;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
@@ -65,5 +57,29 @@ public class Color {
 
     public static Color black() {
         return new Color(0.0,0.0,0.0,1.0);
+    }
+
+    public static Color white() {
+        return new Color(1.0,1.0,1.0,1.0);
+    }
+
+    public static Color red() {
+        return new Color(1.0,0.0,0.0,1.0);
+    }
+
+    public static Color yellow() {
+        return new Color(1.0,1.0,0.0,1.0);
+    }
+
+    public static Color orange() {
+        return new Color(1.0,0.5,0.0,1.0);
+    }
+
+    public static Color green() {
+        return new Color(0.0,1.0,0.0,1.0);
+    }
+
+    public static Color blue() {
+        return new Color(0.0,0.0,1.0,1.0);
     }
 }

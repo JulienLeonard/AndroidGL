@@ -1,4 +1,7 @@
-package julienl.androidgl;
+package julienl.androidgl.drawing;
+
+import julienl.androidgl.geometry.Circle;
+import julienl.androidgl.geometry.Point2D;
 
 /**
  * Created by JulienL on 10/5/2015.

@@ -1,6 +1,10 @@
-package julienl.androidgl;
+package julienl.androidgl.quadtree;
 
 import java.util.ArrayList;
+
+import julienl.androidgl.geometry.BBox;
+import julienl.androidgl.geometry.Shape;
+import julienl.androidgl.quadtree.Quad;
 
 /**
  * Created by JulienL on 10/5/2015.
@@ -35,6 +39,13 @@ public class QuadTree {
 			add(shape);
 		}
 	}
+
+	public void adds(ArrayList<Shape> shapes) {
+		for (Shape shape: shapes) {
+			add(shape);
+		}
+	}
+
 
 	public Boolean isColliding(Shape newshape) {
 		ArrayList<Shape> shapes = mRootQuad.mayintersect( newshape );

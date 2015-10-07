@@ -1,9 +1,10 @@
-package julienl.androidgl;
+package julienl.androidgl.quadtree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import julienl.androidgl.geometry.BBox;
+import julienl.androidgl.geometry.Shape;
 
 /**
  * Created by JulienL on 10/5/2015.

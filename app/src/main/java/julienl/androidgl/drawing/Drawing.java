@@ -1,4 +1,7 @@
-package julienl.androidgl;
+package julienl.androidgl.drawing;
+
+import julienl.androidgl.drawing.Color;
+import julienl.androidgl.geometry.Polygon;
 
 /**
  * Created by JulienL on 10/2/2015.
@@ -6,7 +9,7 @@ package julienl.androidgl;
 public class Drawing {
 
     private Polygon mPolygon;
-    private Color   mColor;
+    private Color mColor;
 
     public Drawing(Polygon polygon,Color color) {
         mPolygon = polygon;

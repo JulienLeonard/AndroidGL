@@ -1,4 +1,4 @@
-package julienl.androidgl;
+package julienl.androidgl.drawing;
 
 import android.opengl.GLES20;
 
@@ -6,6 +6,11 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+
+import julienl.androidgl.MyGLRenderer;
+import julienl.androidgl.drawing.Color;
+import julienl.androidgl.geometry.Point2D;
+import julienl.androidgl.geometry.Polygon;
 
 /**
  * Created by JulienL on 9/30/2015.
@@ -102,7 +107,7 @@ public class PolygonRenderer {
         drawListBuffer.position(0);
 
         // prepare shaders and OpenGL program
-        int vertexShader   = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,   vertexShaderCode);
+        int vertexShader   = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
         int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program

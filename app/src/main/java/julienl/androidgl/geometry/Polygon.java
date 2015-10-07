@@ -1,4 +1,6 @@
-package julienl.androidgl;
+package julienl.androidgl.geometry;
+
+import julienl.androidgl.geometry.Point2D;
 
 /**
  * Created by JulienL on 9/30/2015.

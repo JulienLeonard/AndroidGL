@@ -1,6 +1,10 @@
-package julienl.androidgl;
+package julienl.androidgl.geometry;
 
-import android.util.Log;
+import julienl.androidgl.Point2D;
+import julienl.androidgl.Polygon;
+import julienl.androidgl.Range;
+import julienl.androidgl.Shape;
+import julienl.androidgl.Vector2D;
 
 /**
  * A two-dimensional circle for use as a drawn object in OpenGL ES 2.0.
@@ -25,6 +29,10 @@ public class Circle extends Shape {
 		mradius = radius;
 	}
 
+	static public Circle New(Point2D center, double radius) {
+		return new Circle(center,radius);
+	}
+
     public Point2D center() {
         return mcenter;
     }
@@ -34,7 +42,7 @@ public class Circle extends Shape {
     }
 
     public double r() {
-    return mradius;
+		return mradius;
     }
 
     public double x() {
@@ -48,6 +56,10 @@ public class Circle extends Shape {
     public Point2D point(double angleratio) {
         return mcenter.add(new Vector2D(Math.cos(angleratio * (2.0 * Math.PI)),Math.sin(angleratio * (2.0 * Math.PI))).scale(mradius));
     }
+
+	public Circle scale(double ratio) {
+		return Circle.New(center(),r() * ratio);
+	}
 
     public Polygon polygon(int npoints) {
         Point2D[] point2Ds = new Point2D[npoints];
@@ -71,4 +83,43 @@ public class Circle extends Shape {
        //  Log.v("Test log", "intersect circle result" + result);
         return result;
     }
+
+	public static Circle circles2tangentout(Circle c1, Circle c2, double radius, double iside) {
+		return Circle.circles2tangent(c1,true,c2,true,radius,iside);
+	}
+
+	public static Circle circles2tangent(Circle c1, Boolean isout1, Circle c2, Boolean isout2, double radius, double side) {
+        if (c1 == null || c2 == null){
+            return null;
+        }
+
+		double x1 = c1.x();
+		double y1 = c1.y();
+		double r1 = c1.r();		
+		double x2 = c2.x();
+		double y2 = c2.y();
+		double r2 = c2.r();
+		Vector2D s3 = Vector2D.New(c2.center(),c1.center());
+		double l3 = s3.length();
+		double isens = 1.0;
+		if (!isout1 || !isout2) {
+			isens = -1.0;
+		}
+		double l1 = r1 + isens * radius;
+		double l2 = r2 + radius;
+		double denom = (2.0 * l2 * l3);
+		if (denom == 0.0) {
+			return null;
+		}
+		double cosv = (l3 * l3 - l1 * l1 + l2 * l2) / denom;
+		if (cosv < -1.0 || cosv > 1.0) {
+			return null;
+		}
+		double angle = Math.acos(cosv) * side;
+		Vector2D vnew = s3.rotate(angle).normalize().scale(l2);
+		Point2D newcenter = c2.center().add(vnew);
+		return Circle.New(newcenter,radius);
+	}
+
+	
 }
