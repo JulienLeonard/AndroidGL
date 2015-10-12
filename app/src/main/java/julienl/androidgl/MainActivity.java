@@ -1,22 +1,18 @@
 package julienl.androidgl;
 
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
+
+import julienl.androidgl.surfaces.GLSurfaceBaoSwitch;
+import julienl.androidgl.surfaces.GLSurfaceQuadTree;
+import julienl.androidgl.surfaces.GLSurfaceViewBaoPacking;
+import julienl.androidgl.surfaces.GLSurfaceViewProto;
 
 public class MainActivity extends Activity {
 
-    private MyGLSurfaceView mGLView;
+    private GLSurfaceViewProto mGLView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +20,7 @@ public class MainActivity extends Activity {
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
-        mGLView = new MyGLSurfaceView(this);
+        mGLView = new GLSurfaceBaoSwitch(this);
         setContentView(mGLView);
     }
 
