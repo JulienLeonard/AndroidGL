@@ -26,6 +26,9 @@ public class BaoStack {
 	}
 
 	public void set(ArrayList<BaoNode> nodes, int lastindex) {
+		if (lastindex < 1 && mprevdirection > 0.0) {
+			return;
+		}
 		mlastnode     = mprevdirection > 0.0 ? nodes.get(lastindex)   : nodes.get(lastindex);
 		mlastlastnode = mprevdirection > 0.0 ? nodes.get(lastindex-1) : nodes.get(lastindex+1);
 		mothernode    = mlastlastnode;
@@ -102,7 +105,8 @@ public class BaoStack {
 	}
 
 	public BaoNode nextothernode(BaoNode othernode) {
-		int nodeindex = mprevdirection > 0.0 ? othernode.index() + 1 : othernode.index() - 1;
+		// int nodeindex = mprevdirection > 0.0 ? othernode.index() + 1 : othernode.index() - 1;
+		int nodeindex = othernode.index() + 1;
 		return node(nodeindex);
 	}
 

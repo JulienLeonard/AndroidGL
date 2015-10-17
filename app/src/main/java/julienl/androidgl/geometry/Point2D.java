@@ -1,7 +1,5 @@
 package julienl.androidgl.geometry;
 
-import julienl.androidgl.Vector2D;
-
 /**
  * Created by JulienL on 9/30/2015.
  */

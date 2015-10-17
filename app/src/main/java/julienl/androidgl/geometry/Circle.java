@@ -1,10 +1,6 @@
 package julienl.androidgl.geometry;
 
-import julienl.androidgl.Point2D;
-import julienl.androidgl.Polygon;
-import julienl.androidgl.Range;
-import julienl.androidgl.Shape;
-import julienl.androidgl.Vector2D;
+import julienl.androidgl.utils.Range;
 
 /**
  * A two-dimensional circle for use as a drawn object in OpenGL ES 2.0.

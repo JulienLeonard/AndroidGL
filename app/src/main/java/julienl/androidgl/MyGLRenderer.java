@@ -9,7 +9,11 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import java.util.ArrayList;
-import java.util.Random;
+
+import julienl.androidgl.drawing.Color;
+import julienl.androidgl.drawing.Drawing;
+import julienl.androidgl.drawing.PolygonRenderer;
+import julienl.androidgl.geometry.Polygon;
 
 /**
  * Provides drawing instructions for a GLSurfaceView object. This class

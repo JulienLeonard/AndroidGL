@@ -3,7 +3,7 @@ package julienl.androidgl.bao;
 import java.util.ArrayList;
 
 import julienl.androidgl.drawing.Color;
-import julienl.androidgl.MyGLSurfaceView;
+import julienl.androidgl.surfaces.GLSurfaceViewProto;
 import julienl.androidgl.utils.Utils;
 
 /**
@@ -14,9 +14,9 @@ public class BaoPattern {
 	protected ArrayList<Double> mradiuspattern;
 	protected ArrayList<Color>  mcolorpattern;
 	protected int               mindex;
-	protected MyGLSurfaceView mcanvas;
+	protected GLSurfaceViewProto mcanvas;
 	
-	public BaoPattern(MyGLSurfaceView canvas) {
+	public BaoPattern(GLSurfaceViewProto canvas) {
 		mcanvas = canvas;
 
 		mradiuspattern = new ArrayList<Double>();
@@ -34,7 +34,7 @@ public class BaoPattern {
 
 	// to be overloaded if necessary
 	public void draw(BaoNode newnode, int index, Color color) {
-		mcanvas.draw(newnode,color);
+		mcanvas.draw(newnode, color);
 	}
 
 	public BaoPattern next() {
@@ -61,6 +61,11 @@ public class BaoPattern {
 	}
 
 	public Color color(int index) {
-		return Utils.lcircular(mcolorpattern,mindex);
+		return Utils.lcircular(mcolorpattern, mindex);
+	}
+
+	public static Color index2color(int period, int index) {
+		return Color.hue2color((float) (index % period) / (float) period);
+
 	}
 }
