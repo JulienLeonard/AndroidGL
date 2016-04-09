@@ -47,7 +47,7 @@ public class GLSurfaceViewProto extends GLSurfaceView {
     }
 
     public void draw(final Circle circle, final Color color) {
-        Log.v("Surfaceview", "draw circle");
+        // Log.v("Surfaceview", "draw circle");
         queueEvent(new Runnable() {
 				// This method will be called on the rendering
 				// thread:
@@ -90,6 +90,7 @@ public class GLSurfaceViewProto extends GLSurfaceView {
 
 
 		  case MotionEvent.ACTION_UP:
+			  Log.v("Test log", "event=UP");
 			long aucurrentTime = System.currentTimeMillis();
 			OnTouchUp(e.getX(), getHeight() - e.getY(), aucurrentTime);
 			break;

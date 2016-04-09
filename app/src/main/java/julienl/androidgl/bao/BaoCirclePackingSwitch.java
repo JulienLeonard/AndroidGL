@@ -1,5 +1,7 @@
 package julienl.androidgl.bao;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import julienl.androidgl.geometry.Shape;
@@ -25,11 +27,13 @@ public class BaoCirclePackingSwitch extends BaoCirclePacking {
 
 	public void iter(int niter) {
 
-		
+        Log.v("BaoCirclePackingSwitch","nnodes" + mstack.nodes().size());
+
 		for (int iiter = 0 ; iiter < niter; iiter++ ) {
 			double newside = ((BaoPatternSwitch)mbaopattern.next()).side();
 			if (!(newside == mlastside || mlastside == 0)) {
 				mstack.switchstack();
+				Log.v("BaoCirclePackingSwitch","switch stack " + newside);
 			}
 
 			ArrayList<BaoNode> lastseed = mstack.lastseed();
@@ -38,18 +42,20 @@ public class BaoCirclePackingSwitch extends BaoCirclePacking {
 			double newr       = mbaopattern.next().radius();
 
 			BaoNode newbaonode = null;
-			newbaonode = computenextnode(mquadtree,lastnode,othernode,newr,mstack.newindex(),mside);
+			newbaonode = computenextnode(mquadtree,lastnode,othernode,newr,mstack.newindex(),newside);
 			if (newbaonode == null) {
 				if (othernode != null) {
+                    Log.v("BaoCirclePackingSwitch","user othernode ");
 					othernode = mstack.nextothernode(othernode);
-					newbaonode = computenextnode(mquadtree, lastnode, othernode, newr, mstack.newindex(), mside);
+					newbaonode = computenextnode(mquadtree, lastnode, othernode, newr, mstack.newindex(), newside);
 				}
 				
 				if (newbaonode == null) {
+                    Log.v("BaoCirclePackingSwitch","user collidings ");
 					ArrayList<BaoNode> collidings = BaoCirclePacking.findnewother( mquadtree, lastnode, mstack.excludednodes(othernode), newr);
 					for (BaoNode cothernode: collidings) {
 						othernode = cothernode;
-						newbaonode = computenextnode(mquadtree,lastnode,cothernode,newr,mstack.newindex(),mside);
+						newbaonode = computenextnode(mquadtree,lastnode,cothernode,newr,mstack.newindex(),newside);
 						if (newbaonode != null) {
 							break;
 						}

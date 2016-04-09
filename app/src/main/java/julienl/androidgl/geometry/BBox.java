@@ -188,4 +188,8 @@ public class BBox {
 		}
 		return result;
 	}
+
+	public String toString() {
+		return "" + xmin() + "," + ymin() + "," + xmax() + "," + ymax();
+	}
 }

@@ -27,8 +27,8 @@ import julienl.androidgl.geometry.Polygon;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private volatile ArrayList<Drawing> mDrawings;
-    private PolygonRenderer mPolyRenderer;
+    private volatile ArrayList<Drawing> mDrawings = new ArrayList<>();;
+    private PolygonRenderer mPolyRenderer =  new PolygonRenderer();
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix        = new float[16];
@@ -42,14 +42,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        mPolyRenderer = new PolygonRenderer();
-        mDrawings     = new ArrayList<>();
+        //mPolyRenderer = new PolygonRenderer();
+        //mDrawings     = new ArrayList<>();
 
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
-        Log.v("MyGLRenderer", "onDrawFrame");
+        // Log.v("MyGLRenderer", "onDrawFrame");
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -69,7 +69,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 index += 1;
             }
 
-            Log.v("MyGLRenderer", "onDrawFrame " + polygons.length);
+            // Log.v("MyGLRenderer", "onDrawFrame " + polygons.length);
 
             // mPolyRenderer.draw(polygons[polygons.length-1], colors[polygons.length-1], mMVPMatrix);
             // mDrawings.clear();

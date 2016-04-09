@@ -10,7 +10,7 @@ import julienl.androidgl.utils.Utils;
  */
 public class BaoPatternSwitch extends BaoPattern {
 
-	protected ArrayList<Double> msidepattern;
+	public ArrayList<Double> msidepattern;
 
 	public BaoPatternSwitch(GLSurfaceViewProto canvas) {
 		super(canvas);

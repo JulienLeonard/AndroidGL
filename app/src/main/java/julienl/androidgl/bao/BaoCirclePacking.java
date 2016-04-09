@@ -1,5 +1,7 @@
 package julienl.androidgl.bao;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +18,7 @@ public class BaoCirclePacking {
 	protected BaoStack mstack;
 	protected int mlastindex;
 	protected QuadTree mquadtree;
-	protected BaoPattern mbaopattern;
+	public BaoPattern mbaopattern;
 	protected double mside;
 
 
@@ -30,21 +32,33 @@ public class BaoCirclePacking {
 			mquadtree.adds( boundaries );
 		}
 		for (BaoNode node : nodes) {
+			mquadtree.add(node);
 			node.packing(this);
 		}
 	}
 
 	public BaoNode computenextnode(QuadTree quadtree, BaoNode node2, BaoNode node1, double newr, int index, double iside) {
 		Circle newcircle = Circle.circles2tangentout(node2,node1,newr,iside);
-		if (newcircle != null && !quadtree.isColliding(newcircle)) {
-			BaoNode newbaonode = new BaoNode(this,newcircle,node2.colorindex() + 1, index + 1);
-			return newbaonode;
+        Log.v("BaoCirclePacking","computenextnode result " + newcircle);
+		if (newcircle != null) {
+            Boolean iscolliding = quadtree.isColliding(newcircle);
+            if (!iscolliding) {
+                BaoNode newbaonode = new BaoNode(this, newcircle, node2.colorindex() + 1, index + 1);
+                return newbaonode;
+            } else {
+                Log.v("BaoCirclePacking","computenextnode is colliding, newcircle " + newcircle.toString() );
+                ArrayList<Shape> collisions = quadtree.collidings(newcircle);
+                for (Shape collision : collisions) {
+                    Log.v("BaoCirclePacking","computenextnode collision " + collision.toString() );
+
+                }
+            }
 		}
 		return null;
 	}
 
 	public static ArrayList<BaoNode> findnewother(QuadTree quadtree, BaoNode lastnode, ArrayList<BaoNode> excludednodes, double newr) {
-		Circle bigcircle = lastnode.scale( (lastnode.r() + newr * 2.1) / lastnode.r() );
+		Circle bigcircle = lastnode.scale((lastnode.r() + newr * 2.1) / lastnode.r());
 		ArrayList<Shape> scollidings = quadtree.collidings(bigcircle);
 		ArrayList<BaoNode> bcollidings = new ArrayList<BaoNode>();
 		for (Shape scol : scollidings) {

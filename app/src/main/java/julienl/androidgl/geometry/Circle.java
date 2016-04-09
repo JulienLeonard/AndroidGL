@@ -50,11 +50,11 @@ public class Circle extends Shape {
     }
 
     public Point2D point(double angleratio) {
-        return mcenter.add(new Vector2D(Math.cos(angleratio * (2.0 * Math.PI)),Math.sin(angleratio * (2.0 * Math.PI))).scale(mradius));
+        return mcenter.add(new Vector2D(Math.cos(angleratio * (2.0 * Math.PI)), Math.sin(angleratio * (2.0 * Math.PI))).scale(mradius));
     }
 
 	public Circle scale(double ratio) {
-		return Circle.New(center(),r() * ratio);
+		return Circle.New(center(), r() * ratio);
 	}
 
     public Polygon polygon(int npoints) {
@@ -73,9 +73,14 @@ public class Circle extends Shape {
         return BBox.New(center(),radius());
     }
 
+    public String toString() {
+        return "(" + x() + "," + y() + "," + r() + ")";
+    }
+
+
     public static Boolean intersect(Circle c1, Circle c2) {
         double sumrad = (c1.radius() + c2.radius());
-        Boolean result = (Point2D.distance2(c1.center(),c2.center()) < (sumrad *sumrad));
+        Boolean result = (Point2D.distance2(c1.center(),c2.center()) - (sumrad *sumrad) < -sumrad * 0.00001);
        //  Log.v("Test log", "intersect circle result" + result);
         return result;
     }
